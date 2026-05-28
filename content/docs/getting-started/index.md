@@ -12,15 +12,15 @@ Welcome to MARBITS! This page walks you through everything you need to start com
 
 ---
 
-## What you need
+## Requisites
 
 Before you can use MARBITS you will need:
 
-1. **A MARBITS user account** — associated to at least one project/bank account for billing purposes. You or your supervisor must send an email to [psanchez@icm.csic.es](mailto:psanchez@icm.csic.es) requesting the account and specifying the project(s) it will be billed to.
+1. **A MARBITS user account** — associated to at least one project/bank account for billing purposes. You or your supervisor must send an email to jlruiz (@icm.blablabla) requesting the account and specifying the project(s) it will be billed to.
 
-2. **Access to the CMIMA local network** — MARBITS is only reachable from within the [CMIMA](http://www.cmima.csic.es/) network. If you will be on-site regularly, ask IT to [integrate your computer into the local network](http://si.cmima.csic.es/ca/service/integraci%C3%B3-dun-ordinador-la-xarxa-local).
+2. **Access to the CMIMA local network** — MARBITS is only reachable from within the [CMIMA](http://www.cmima.csic.es/) network. You need to have your computer authorised by IT to access it (antivirus protection, etc). If you have any trouble open a [ticket at the ICM intranet](https://sau.cmima.csic.es/otrs/customer.pl).
 
-3. **Remote access via `triton`** — If you work remotely, you need an account on the `triton` gateway server. Ask IT for one. See [Accessing from outside CMIMA](#accessing-from-outside-cmima) below.
+3. **Remote access via VPN or `salamandra`** — If you work remotely, you can access all local netowrk resources through the VPN. If you are not a CSIC employee, you need an account on the `salamandra` gateway server. [Ask IT for either one](https://sau.cmima.csic.es/otrs/customer.pl). See [Accessing from outside CMIMA](#accessing-from-outside-cmima) below.
 
 4. **A terminal app** — Linux and macOS users are all set. Windows users can install [PuTTY](http://www.chiark.greenend.org.uk/~sgtatham/putty/) or use Windows Subsystem for Linux (WSL).
 
@@ -50,28 +50,29 @@ MARBITS is a shared HPC cluster. A few rules keep it running smoothly for everyo
 **Never run jobs on the head/login node (`marbits`).** Jobs there will be killed without warning. Always use SLURM to submit work to the compute nodes. See [Running Jobs](/docs/running-jobs/).
 {{% /callout %}}
 
-- **Your `/home` is small** — it has a soft quota of **2.5 GB** (hard: 3 GB). Store only configuration files and small scripts there. All data should go to the [Lustre filesystem](/docs/filesystem/).
+- **Your `/home` is small** — it has a soft quota of **7 GB** (hard: 6 GB). Store only configuration files and small scripts there. All data should go to the [Lustre filesystem](/docs/filesystem/).
 
-- **Use `/mnt/lustre/scratch` for job output** — this area has no backups and files older than 3 months are automatically deleted. Move anything you want to keep to your personal Lustre directory afterwards.
+- **Use `/mnt/smart/scratch/your-group-folder` for job output** — this area has no backups and files older than 3 months are bound to be automatically deleted. Move anything you want to keep to any other storage or backup solution you may have.
 
-- **Use scratch, not home, for job writes** — writing large amounts of data to `/home` degrades cluster performance.
+- **Use scratch, not home, for job writes** — writing large amounts of data to `/home` degrades cluster performance. Again: **Use scratch!**.
 
-- **Delete what you no longer need** — storage is finite. Compress files when possible (many tools accept `.gz` input).
+- **Delete what you no longer need** — storage is finite. Also, download or copy input files from an external source to scratch and delete them as soon as the calculations are done.
 
-- **Repeat: don't run on the head node** — it is heavily monitored and processes will be killed.
+- **Repeat: don't run jobs on the head node** — it is heavily monitored and processes will be killed.
 
 ---
 
 ## Accessing from outside CMIMA
+If you have a VPN active, you are good to go.
 
-To connect to MARBITS from outside the CMIMA network:
+To connect to MARBITS from outside the CMIMA network using `salamandra`:
 
-1. Log in to the `triton` gateway server (ask IT for an account if you don't have one):
+1. Log in to the `salamandra` gateway server (ask IT for an account if you don't have one):
    ```bash
-   ssh your_username@triton.cmima.csic.es
+   ssh your_username@salamandra.cmima.csic.es
    ```
 
-2. From `triton`, SSH into MARBITS normally:
+2. From `salamandra`, SSH into MARBITS normally:
    ```bash
    ssh your_username@marbits.cmima.csic.es
    ```

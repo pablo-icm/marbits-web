@@ -26,23 +26,27 @@ We also have a **logo** you can include in slides — ask the admins.
 
 ## How do I request a user account?
 
-Send an email to [psanchez@icm.csic.es](mailto:psanchez@icm.csic.es) with:
+Send an email to jlruiz (@icm.blabla) with:
 - Your name and institution
 - Your supervisor's name
-- The project/bank account(s) your compute time should be billed to
+- The project/bank account(s) your compute time and storage should be billed to  
+
+Alternatively, [open a issue at our github community.](https://github.com/marbits-icm/marbits-public/issues/new) 
 
 ---
 
 ## How can I access MARBITS from outside the local network?
 
-1. Log in to the `triton` gateway server (ask IT if you need an account):
+1. Log in to the `salamandra` gateway server (ask IT if you need an account):
    ```bash
-   ssh <triton_username>@triton.cmima.csic.es
+   ssh <salamandra_username>@salamandra.cmima.csic.es
    ```
 2. From `triton`, SSH into MARBITS:
    ```bash
    ssh <marbits_username>@marbits.cmima.csic.es
    ```
+
+Via VPN. Log in as if you were connected to the CMIMA local network. If you are an ICM employee, ask for VPN access if you don't have it.  
 
 For file transfers from outside, see [File Transfer](/docs/file-transfer/).
 
@@ -63,7 +67,7 @@ sacctmgr show assoc user=<your_username>
 Your `/home` is tiny. Keep your data in Lustre and create symlinks for convenience:
 
 ```bash
-ln -s /mnt/lustre/bio/users/<username>/myproject ~/myproject
+ln -s /mnt/smart/scratch/<groupName>/myproject ~/myproject
 ```
 
 The symlink behaves exactly like a directory — you can `cd` into it, list it, etc.
@@ -76,10 +80,10 @@ See the full [File Transfer](/docs/file-transfer/) page. Quick summary:
 
 ```bash
 # From inside CMIMA network
-rsync -avz --progress myfile <username>@marbits:/mnt/lustre/bio/users/<username>/
+rsync -avz --progress myfile <username>@marbits:/mnt/smart/scratch/<groupName>/myproject
 
 # From outside (via SSH tunnel on port 2222)
-rsync -avz -e "ssh -p 2222" --progress myfile <username>@localhost:/mnt/lustre/bio/users/<username>/
+rsync -avz -e "ssh -p 2222" --progress myfile <username>@localhost:/mnt/smart/scratch/<groupName>/myproject
 ```
 
 ---
@@ -89,6 +93,8 @@ rsync -avz -e "ssh -p 2222" --progress myfile <username>@localhost:/mnt/lustre/b
 Are you trying to run it directly on the login node (`marbits`)? **Don't.** Processes that use too many resources on the head node are killed automatically.
 
 Submit your job with `sbatch` or start an interactive session with `srun --pty /bin/bash`. See [Running Jobs](/docs/running-jobs/).
+
+Sometimes a job can silently fail if your output goes to a location that is unavailable. It happens after a power outage normaly, when the systems are a bit unstable.  
 
 ---
 
@@ -109,17 +115,27 @@ Open an [Issue](https://github.com/marbits-icm/marbits-public/issues/new) on Git
 
 ---
 
-## I was a biocluster user. Where is my data?
-
-If you had an account on the old biocluster (SGE-based) before the upgrade to MARBITS/SLURM, your data should have been migrated to the Lustre filesystem under `/mnt/lustre/bio/users/<username>`.
-
-Main changes from biocluster to MARBITS:
-- Job submission: `qsub` (SGE) → `sbatch` (SLURM)
-- Storage: NFS → Lustre parallel filesystem
-- Cluster software: Rocks v6 → OpenHPC v1.3.4
-
----
 
 ## How do I add a GitHub user to the MARBITS community?
 
 Post your GitHub username in [this discussion thread](https://github.com/marbits-icm/marbits-public/discussions/6). Having a GitHub account lets you participate in discussions, open issues, and contribute to the wiki.
+
+---
+
+
+## Can I have Rstudio server in Marbits?
+
+No
+
+---
+
+
+## Marbits is not working  
+
+99% of the time it is related to the storage filesystems. Marbits is fine :-)  
+But seriously, any misbehaviour or buggy conduct can be [reported here](https://github.com/marbits-icm/marbits-public/issues/new)
+
+---
+
+
+

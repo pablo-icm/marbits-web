@@ -16,11 +16,11 @@ MARBITS is built around a High Performance Computing (HPC) cluster physically lo
 
 | Resource | Value |
 |---|---|
-| Compute nodes | 22 |
-| CPU cores (physical) | 396 |
-| CPU cores (with hyperthreading) | 792 |
-| Total RAM | ~4.6 TB |
-| Storage (Lustre) | ~800 TB classic + 220 TB Smart |
+| Compute nodes | 10 |
+| CPU cores (physical) | 240 |
+| CPU cores (with hyperthreading) | 480 |
+| Total RAM | 3.6 TB |
+| Storage (Lustre) | 235 TB Smart |
 | Job scheduler | SLURM |
 | OS | CentOS 7.5 (OpenHPC) |
 
@@ -31,7 +31,8 @@ MARBITS is built around a High Performance Computing (HPC) cluster physically lo
 The master and login node is called **`marbits`**. It is a **Fujitsu Primergy RX2530 M2** server with:
 
 - 2 × Intel Xeon E5-2603v4 processors
-- 2 × 240 GB SSD disks
+- 2 × 240 GB SSD disks 
+- 1 x 2 TB 7200 HDD in RAID 1  
 - 64 GB RAM
 - CentOS 7.5 with OpenHPC and SLURM
 
@@ -46,7 +47,7 @@ The master node is reachable only from within the CMIMA local network.
 
 ## Compute nodes
 
-The 22 compute nodes are divided into three classes:
+The 10 compute nodes are divided into two classes:
 
 ### Class A — Supermicro standard (8 nodes)
 
@@ -75,18 +76,6 @@ Deployed in 1 Twin system (SYS-2028TP-HTR+). Built for memory-hungry tasks such 
 | RAM per node | **772 GB** |
 | Total RAM | 1,544 GB |
 | Hyperthreading | No |
-
-### Class C — IBM dx360 M3 (12 nodes)
-
-| Feature | Value |
-|---|---|
-| Nodes | 12 |
-| CPU | 2 × 6-core Intel X5650 @ 2.66 GHz |
-| Cores per node | 12 physical |
-| Total cores | 144 physical |
-| RAM per node | 80 GB |
-| Total RAM | 960 GB |
-| Disk | 1 × 250 GB 7.2K RPM |
 
 ---
 

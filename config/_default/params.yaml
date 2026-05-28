@@ -20,7 +20,7 @@ marketing:
     site_type: EducationalOrganization
     local_business_type: ''
     org_name: 'MARBITS – Marine Bioinformatics Service'
-    description: 'MARBITS is the High-Performance Computing (HPC) platform for marine bioinformatics at the Institut de Ciències del Mar (ICM-CSIC) in Barcelona. It provides 396 CPU cores, 4.6 TB RAM and 450+ TB of storage for the research community.'
+    description: 'MARBITS is the High-Performance Computing (HPC) platform for marine bioinformatics at the Institut de Ciències del Mar (ICM-CSIC) in Barcelona. It provides 240 CPU cores, 3.6 TB RAM and ~1 PB of storage for the research community.'
     twitter: ''
     og_image: ''
   analytics:

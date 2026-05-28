@@ -16,11 +16,9 @@ MARBITS provides several filesystems with different performance and durability c
 
 | Filesystem | Path | Use for | Backed up? | Notes |
 |---|---|---|---|---|
-| Home | `/home/<user>` | Config files, scripts | Yes | Tiny quota — keep it light |
-| Lustre "Classic" | `/mnt/lustre` | Computation & user data | Yes | ⚠ Currently unreliable |
-| Lustre "Smart" | `/mnt/smart` | **Active computation** | Limited | Preferred currently |
-| Lustre Scratch | `/mnt/lustre/scratch` | Temporary job output | **No** | Auto-deleted after 3 months |
-| Lustre Repos | `/mnt/lustre/repos` | Public/redownloadable datasets | No | Read-only |
+| Home | `/home/<user>` | Config files, scripts | No | Tiny quota — keep it light |
+| Lustre "Classic" | `/mnt/lustre` | Computation & user data | No | ⚠ Currently unavailable |
+| Lustre "Smart" | `/mnt/smart/scratch` | **Active computation** | No | Not a permanent storage volume |
 | Biostore | `/mnt/biostore` | Data archival | No | NFS — not for computation |
 | Cold02 | `/mnt/cold02` | Long-term storage | No | NFS — not for computation |
 
@@ -30,29 +28,29 @@ MARBITS provides several filesystems with different performance and durability c
 
 Your home directory (`/home/<username>`) is a soft link pointing to your personal directory inside the Lustre filesystem. The underlying `/home` volume is **shared by all users and is very small (~150 GB total).**
 
-Keep it lean — only configuration files (`.bashrc`, `.ssh/`, etc.) and small scripts.
+Keep it lean — only configuration files (`.bashrc`, `.ssh/`, etc.), maybe light conda environments and small scripts.
 
-### Quota on `/home`
+### Check your quota on `/home`
 
 | Quota type | Limit |
 |---|---|
-| Soft quota | **2.5 GB** (7-day grace period) |
-| Hard quota | **3 GB** (cannot be exceeded) |
+| Soft quota | **6 GB** (7-day grace period) |
+| Hard quota | **7 GB** (cannot be exceeded) |
 
 Check your current usage:
 
 ```bash
-quota
+quota -s
 ```
 
 ---
 
 ## Lustre filesystem
 
-MARBITS mounts two [Lustre](http://lustre.org/) parallel filesystems (`/mnt/lustre` and `/mnt/smart`) shared with other HPC services at CMIMA. Lustre provides parallel, high-speed access distributed across multiple storage servers.
+MARBITS used to mount two [Lustre](http://lustre.org/) parallel filesystems (`/mnt/lustre` and `/mnt/smart`) shared with other HPC services at CMIMA (namely SMART and Gaia). Lustre provides parallel, high-speed access distributed across multiple storage servers. Both lustre filesystems are managed by the Scientific Computing Service (SCS) at ICM.
 
 {{% callout warning %}}
-**`/mnt/lustre` is currently unreliable.** Please use `/mnt/smart` for active computation, but clean up your files as soon as possible to leave space for other users.
+**`/mnt/lustre` is currently unavailable.** Please use `/mnt/smart/scratch` for active computation, but clean up your files as soon as possible to leave space for other users.
 {{% /callout %}}
 
 ### Storage sizes
@@ -60,32 +58,41 @@ MARBITS mounts two [Lustre](http://lustre.org/) parallel filesystems (`/mnt/lust
 | Volume | Capacity |
 |---|---|
 | Classic Lustre (`/mnt/lustre`) | ~800 TB |
-| Smart Lustre (`/mnt/smart`) | ~220 TB |
+| Smart Lustre (`/mnt/smart/scratch`) | ~235 TB |
+
+To request changes in `/mnt/smart/scratch` quotas contact jlruiz (at icm.blabla). Be aware that storage will be billed by SCS.
+
 
 ### Best practices
 
-- **Write job output to `/mnt/lustre/scratch`** — when the job finishes, move what you want to keep to your personal Lustre directory. Moving within the same filesystem is instantaneous (`mv` is free).
+- **Copy your input files** from an external storage filesystem into `/mnt/smart/scratch/your-group` to process them. After you get your results, delete the input files (mainly if they are XL).  
 - **Delete temporary and intermediate files** regularly. Storage is expensive and shared.
 - **Compress everything you can** — many tools accept `.gz` files directly.
-- **Do not run jobs from `/mnt/biostore` or `/mnt/cold02`** — these NFS mounts are not optimised for computation.
+- **Do not run jobs from `/mnt/biostore` or `/mnt/cold02`** — these NFS mounts are not optimised for computation.  
+- **KEEP AN OFF-PREMISES COPY OF EVERYTHING THAT YOU CANNOT ALLOW TO LOOSE!**  
 
-### Scratch (`/mnt/lustre/scratch`)
+{{% callout warning %}}
+**Let's say it again:** At the moment, Marbits and SMART **DO NOT** offer backup services. Lustre has a redundancy layer that protects your data to some extent, but **YOU, the data owner**, are the sole and ultimate responsible of the data conservation.
+{{% /callout %}}
 
-This is a high-speed temporary workspace. It has **no backups** and files older than **3 months** are automatically deleted by the system. Use it only for active job I/O.
 
-### User directories
+### Group/account directories at `/mnt/smart/scratch`
 
-Each user has a personal directory at `/mnt/lustre/bio/users/<username>`. Your `/home` is a symlink pointing there.
+Each group or `account` has a directory at `/mnt/smart/scratch/<groupName>` with a storage quota set and maintained by SCS. Your storage group should match your default computing account. 
 
-Create additional symlinks to your data for convenient navigation:
+You can create symlinks in your home directory pointing to your data for convenient navigation:
 
 ```bash
-ln -s /mnt/lustre/bio/users/psanchez/myproject/ ~/myproject
+ln -s /mnt/scratch/groupName/projectName ~/projectName
 ```
 
-### Repos (`/mnt/lustre/repos`)
+### Check your `quota` in `/mnt/smart/scratch`
 
-Public or re-downloadable datasets go here. It is **read-only** for regular users. Ask the admins to add datasets.
+```bash
+lfs quota -h -u yourUserName /mnt/smart/scratch    # to see how much space you are using
+lfs quota -h -g yourGroupName /mnt/smart/scratch    # to see how much space is your group using
+```
+
 
 ---
 
@@ -96,7 +103,7 @@ Public or re-downloadable datasets go here. It is **read-only** for regular user
 | `/mnt/biostore` | Long-term archival — NFS, slow, not for computation |
 | `/mnt/cold02` | Cold storage — NFS, for data you rarely access |
 
-These are managed separately from Lustre. Do not run jobs from these volumes.
+These are managed separately from Lustre. Do not run jobs from these volumes. You can **copy** your data from any of these volumes to `/mnt/smart/scratch` as you need to process them. Don't forget to remove them right away when you don't need them anymore. 
 
 ---
 

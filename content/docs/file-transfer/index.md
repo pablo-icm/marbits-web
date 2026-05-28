@@ -48,26 +48,31 @@ Use any **SFTP** client (not regular FTP):
 | Password | Your MARBITS password |
 
 Recommended clients:
-- **[Cyberduck](https://cyberduck.io/)** — macOS / Windows, free
+- **[Cyberduck](https://cyberduck.io/)** — macOS / Windows, free-ish
 - **[FileZilla](https://filezilla-project.org/)** — macOS / Linux / Windows, free
 
 ---
 
 ## From outside the CMIMA network
 
-You must first establish an **SSH tunnel** through the `triton` gateway.
+### VPN
+You are good to go. See above.  
 
-### Step 1: open the tunnel
+### Through `salamandra` 
+
+You must first establish an **SSH tunnel** through the `salamandra` gateway.
+
+#### Open the tunnel
 
 From your local computer:
 
 ```bash
-ssh -L 2222:marbits:22 <triton_username>@triton.cmima.csic.es
+ssh -L 2222:marbits:22 <salamandra_username>@salamandra.cmima.csic.es
 ```
 
 Leave this terminal open (the tunnel is active as long as it runs).
 
-### Step 2: transfer via the tunnel
+#### Transfer files via tunnel
 
 In another terminal, use `localhost:2222` as the target:
 
@@ -88,7 +93,7 @@ Configure your FTP client as follows:
 | Protocol | **SFTP** |
 | Server | `localhost` |
 | Port | `2222` |
-| Username | Your **MARBITS** username (not Triton) |
+| Username | Your **MARBITS** username (not `salamandra`'s') |
 | Password | Your **MARBITS** password |
 
 ---
@@ -96,6 +101,5 @@ Configure your FTP client as follows:
 ## Tips for large transfers
 
 - Prefer `rsync` over `scp` for large datasets — it resumes interrupted transfers.
-- Transfer to `/mnt/lustre/scratch` first, then move to your user directory once done.
 - Compress files before transferring when possible (`tar -czf archive.tar.gz my_data/`).
 - For very large datasets (>1 TB), contact the admins — there may be a faster option.

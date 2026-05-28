@@ -26,7 +26,17 @@ sbatch my_script.sh
 
 ---
 
+## The MARBITS SLURM script generator
+
+{{% callout note %}}
+You can use our [SLURM header wizard](/docs/slurm-generator) to write your scripts!
+{{% /callout %}}
+
+---
+
 ## SLURM options
+
+
 
 All SLURM options are placed at the top of your script, preceded by `#SBATCH`. They look like comments to the shell but SLURM reads them.
 
@@ -54,8 +64,12 @@ Every job must be billed to a bank/project account. One user may belong to sever
 #SBATCH --array=1-10                # Job array (see below)
 ```
 
-{{% callout note %}}
-`--cpus-per-task` must match the number of threads your program actually uses. If you request 12 cores but your program only uses 1, you waste 11 cores.
+{{% callout warning %}}
+`--cpus-per-task` must match the number of threads your program actually uses. If you request 12 cores but your program only uses 1, you waste 11 cores (and you will be billed for 12 cores).  
+{{% /callout %}}  
+
+{{% callout warning %}}
+`--mem` must match the maximum amount of memory that your app is asking for. Be aware that some apps are very greedy and will try to get all the node memory if you don't specify a maximum value.
 {{% /callout %}}
 
 ---
@@ -106,6 +120,10 @@ module load megahit/1.1.3
 megahit -t 12 -o /mnt/lustre/scratch/psanchez/out \  # ← must match --cpus-per-task
         -1 data/R1.fastq.gz -2 data/R2.fastq.gz
 ```
+
+{{% callout warning %}}
+`--n-tasks` is not what you think it is. Unless you are using `openmpi` protocols, leave `--n-tasks=1`. If you are using any flavour of `mpi`, you already know what you are doing.
+{{% /callout %}}
 
 ---
 
@@ -187,9 +205,11 @@ sinfo
 ### Cancel jobs
 
 ```bash
-scancel <jobID>            # cancel by ID
-scancel -n <jobname>       # cancel by name
-scancel -u $(whoami)       # cancel all your jobs
+scancel <jobID>             # cancel by ID
+scancel -n <jobname>        # cancel by name
+scancel -u $(whoami)        # cancel all your jobs
+scancel signal=KILL <jobID> # Force cancellation of really, really stubborn
+                            # jobs that refuse to give up and die already
 ```
 
 ### Accounting for finished jobs
