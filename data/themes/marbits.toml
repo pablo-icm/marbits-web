@@ -1,0 +1,13 @@
+# MARBITS custom theme – deep ocean palette
+name = "MARBITS"
+
+[light]
+  primary = "#0077b6"
+
+  menu_primary = "#03045e"
+  menu_text    = "#caf0f8"
+  menu_text_active = "#90e0ef"
+  menu_title   = "#ffffff"
+
+  home_section_odd  = "rgb(255, 255, 255)"
+  home_section_even = "rgb(240, 248, 255)"

@@ -1,0 +1,47 @@
+title: MARBITS – Marine Bioinformatics Service
+
+baseURL: 'https://marbits.icm.csic.es/'
+
+############################
+## LANGUAGE
+############################
+
+defaultContentLanguage: en
+hasCJKLanguage: false
+defaultContentLanguageInSubdir: false
+removePathAccents: true
+
+############################
+## ADVANCED
+############################
+
+enableGitInfo: false
+summaryLength: 30
+
+pagination:
+  pagerSize: 10
+
+enableEmoji: true
+enableRobotsTXT: true
+
+ignoreFiles: [\.ipynb$, .ipynb_checkpoints$, \.Rmd$, \.Rmarkdown$, _cache$]
+
+outputs:
+  home: [HTML, RSS, JSON, WebAppManifest]
+  section: [HTML, RSS]
+
+imaging:
+  resampleFilter: lanczos
+  quality: 80
+  anchor: smart
+
+timeout: 600000
+
+markup:
+  _merge: deep
+
+security:
+  _merge: deep
+
+sitemap:
+  _merge: deep

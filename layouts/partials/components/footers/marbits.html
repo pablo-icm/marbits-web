@@ -1,0 +1,45 @@
+{{/* MARBITS custom footer with institutional logos */}}
+
+{{/* MARBITS logo */}}
+{{- $marbits := resources.Get "media/Marbits-blanco-rgb.png" -}}
+{{- if $marbits -}}
+<div class="text-center mb-3">
+  <img src="{{ $marbits.RelPermalink }}" alt="MARBITS" style="height:40px; width:auto; opacity:0.9;">
+</div>
+{{- end -}}
+
+{{/* Logos section */}}
+<div class="footer-logos d-flex flex-wrap align-items-center justify-content-center mb-3" style="gap: 2rem 3rem;">
+
+  {{- $icm := resources.Get "media/logoICM.png" -}}
+  {{- if $icm -}}
+  <a href="https://www.icm.csic.es/" target="_blank" rel="noopener" title="Institut de Ciències del Mar (ICM-CSIC)">
+    <img src="{{ $icm.RelPermalink }}" alt="ICM-CSIC" style="height:44px; width:auto; opacity:0.85; transition: opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.85">
+  </a>
+  {{- end -}}
+
+  {{- $so := resources.Get "media/logoSO.png" -}}
+  {{- if $so -}}
+  <a href="https://www.cmima.csic.es/" target="_blank" rel="noopener" title="CMIMA – Centre Mediterrani d'Investigacions Marines i Ambientals">
+    <img src="{{ $so.RelPermalink }}" alt="CMIMA" style="height:44px; width:auto; opacity:0.85; transition: opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.85">
+  </a>
+  {{- end -}}
+
+  {{- $emm := resources.Get "media/logoEMM.png" -}}
+  {{- if $emm -}}
+  <a href="https://emm.icm.csic.es/" target="_blank" rel="noopener" title="Ecology of Marine Microbes (EMM)">
+    <img src="{{ $emm.RelPermalink }}" alt="EMM" style="height:44px; width:auto; opacity:0.85; transition: opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.85">
+  </a>
+  {{- end -}}
+
+</div>
+
+{{/* Divider */}}
+<div style="border-top: 1px solid rgba(144,224,239,0.15); margin: 0.5rem auto 1rem; max-width: 320px;"></div>
+
+{{/* Copyright and license */}}
+{{ partial "site_footer_license" . }}
+
+{{ with site.Params.footer.text }}
+<p class="powered-by">{{ . | markdownify | emojify }}</p>
+{{ end }}

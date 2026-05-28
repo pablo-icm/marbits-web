@@ -1,0 +1,22 @@
+# ─────────────────────────────────────────────
+# MARBITS cluster specifications
+# Edit this file to update specs site-wide.
+# ─────────────────────────────────────────────
+
+cores: "396"
+cores_ht: "792"
+ram: "4.6 TB"
+storage_lustre: "800 TB"
+storage_smart: "220 TB"
+storage_total: "1+ PB"
+nodes: "22"
+nodes_standard: "8"
+nodes_highmem: "2"
+nodes_ibm: "12"
+network_storage: "10 Gbps"
+network_hpc: "1 Gbps"
+os: "CentOS 7.5 + OpenHPC"
+scheduler: "SLURM"
+quota_home_soft: "2.5 GB"
+quota_home_hard: "3 GB"
+scratch_retention: "3 months"

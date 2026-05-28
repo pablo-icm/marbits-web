@@ -1,0 +1,114 @@
+# SITE SETUP
+# Guide: https://docs.hugoblox.com/tutorial/
+
+############################
+## APPEARANCE
+############################
+
+appearance:
+  mode: light
+  color: marbits
+  font: native
+  font_size: M
+
+############################
+## SEO
+############################
+
+marketing:
+  seo:
+    site_type: EducationalOrganization
+    local_business_type: ''
+    org_name: 'MARBITS – Marine Bioinformatics Service'
+    description: 'MARBITS is the High-Performance Computing (HPC) platform for marine bioinformatics at the Institut de Ciències del Mar (ICM-CSIC) in Barcelona. It provides 396 CPU cores, 4.6 TB RAM and 450+ TB of storage for the research community.'
+    twitter: ''
+    og_image: ''
+  analytics:
+    google_analytics: ''
+    baidu_tongji: ''
+  verification:
+    google: ''
+    baidu: ''
+
+############################
+## SITE HEADER
+############################
+
+header:
+  navbar:
+    enable: true
+    blox: navbar
+    align: l
+    fixed_to_top: true
+    show_logo: true
+    show_language: false
+    show_day_night: true
+    show_search: true
+    highlight_active_link: true
+    logo:
+      text: MARBITS
+
+############################
+## SITE FOOTER
+############################
+
+footer:
+  block: marbits
+  copyright:
+    notice: >-
+      © {year} Marine Bioinformatics Service,
+      [ICM-CSIC](https://www.icm.csic.es/) Barcelona.
+    license:
+      enable: false
+
+############################
+## LOCALIZATION
+############################
+
+locale:
+  date_format: 'Jan 2, 2006'
+  time_format: '3:04 PM'
+
+############################
+## SITE FEATURES
+############################
+
+features:
+  math:
+    enable: false
+  privacy_pack:
+    enable: false
+  repository:
+    url: 'https://github.com/marbits-icm/marbits-web'
+    content_dir: content
+    branch: main
+
+############################
+## COMMENTS
+############################
+
+comments:
+  provider: ''
+
+############################
+## SEARCH
+############################
+
+search:
+  provider: wowchemy
+
+############################
+## CONTACT DETAILS
+############################
+
+email: psanchez@icm.csic.es
+phone: '+34 93 230 95 00'
+address:
+  street: Passeig Marítim de la Barceloneta, 37-49
+  city: Barcelona
+  postcode: '08003'
+  country: Spain
+  country_code: ES
+coordinates:
+  latitude: '41.3794'
+  longitude: '2.1944'

@@ -1,0 +1,662 @@
+<div class="slurm-generator my-4">
+  <div class="row g-4">
+
+    <!-- ── FORM ─────────────────────────────────────────────────── -->
+    <div class="col-lg-6">
+      <form id="slurmForm" onsubmit="return false;">
+
+        <!-- Job Settings -->
+        <h6 class="slurm-section-title">
+          <i class="fas fa-tag me-2"></i>Job Settings
+        </h6>
+
+        <div class="mb-3">
+          <label class="form-label" for="sg-jobName">
+            Job name <code class="slurm-opt">--job-name</code>
+          </label>
+          <input type="text" class="form-control" id="sg-jobName"
+                 placeholder="my_analysis" oninput="slurmGenerate()">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="sg-account">
+            Account <span class="text-danger">*</span>
+            <code class="slurm-opt">--account</code>
+          </label>
+          <input type="text" class="form-control" id="sg-account"
+                 placeholder="your_bank_account" oninput="slurmGenerate()">
+          <div class="form-text">
+            <a href="/docs/faq/#how-do-i-know-my-bank-account-for-option-account">How to find your account</a>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="sg-partition">
+            Partition <code class="slurm-opt">--partition</code>
+          </label>
+          <input type="text" class="form-control" id="sg-partition"
+                 placeholder="leave blank for default"
+                 list="sg-partitionList" oninput="slurmGenerate()">
+          <datalist id="sg-partitionList">
+            <option value="standard">
+            <option value="highmem">
+            <option value="gpu">
+          </datalist>
+          <div class="form-text">Leave blank to use the cluster default partition.</div>
+        </div>
+
+        <hr class="slurm-sep">
+
+        <!-- Resources -->
+        <h6 class="slurm-section-title">
+          <i class="fas fa-microchip me-2"></i>Resources
+        </h6>
+
+        <div class="row g-2 mb-3">
+          <div class="col-6">
+            <label class="form-label" for="sg-nodes">
+              Nodes <code class="slurm-opt">--nodes</code>
+            </label>
+            <input type="number" class="form-control" id="sg-nodes"
+                   value="1" min="1" oninput="slurmGenerate()">
+          </div>
+          <div class="col-6">
+            <label class="form-label" for="sg-ntasks">
+              Tasks <code class="slurm-opt">--ntasks</code>
+            </label>
+            <input type="number" class="form-control" id="sg-ntasks"
+                   value="1" min="1" oninput="slurmGenerate()">
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="sg-cpus">
+            CPUs per task <code class="slurm-opt">--cpus-per-task</code>
+          </label>
+          <input type="number" class="form-control" id="sg-cpus"
+                 value="1" min="1" max="64" oninput="slurmGenerate()">
+          <div class="form-text">
+            Must match the number of threads your program actually uses.
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">
+            Memory <code class="slurm-opt">--mem</code>
+          </label>
+          <div class="input-group">
+            <input type="number" class="form-control" id="sg-mem"
+                   placeholder="8" min="1" oninput="slurmGenerate()">
+            <select class="form-select slurm-unit-select" id="sg-memUnit"
+                    onchange="slurmGenerate()">
+              <option value="G" selected>GB</option>
+              <option value="M">MB</option>
+              <option value="T">TB</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">
+            Time limit <code class="slurm-opt">--time</code>
+          </label>
+          <div class="row g-2">
+            <div class="col-3">
+              <input type="number" class="form-control text-center" id="sg-tDays"
+                     placeholder="0" min="0" oninput="slurmGenerate()">
+              <div class="form-text text-center">days</div>
+            </div>
+            <div class="col-3">
+              <input type="number" class="form-control text-center" id="sg-tHours"
+                     placeholder="4" min="0" max="23" oninput="slurmGenerate()">
+              <div class="form-text text-center">hours</div>
+            </div>
+            <div class="col-3">
+              <input type="number" class="form-control text-center" id="sg-tMins"
+                     placeholder="0" min="0" max="59" oninput="slurmGenerate()">
+              <div class="form-text text-center">min</div>
+            </div>
+            <div class="col-3">
+              <input type="number" class="form-control text-center" id="sg-tSecs"
+                     placeholder="0" min="0" max="59" oninput="slurmGenerate()">
+              <div class="form-text text-center">sec</div>
+            </div>
+          </div>
+        </div>
+
+        <hr class="slurm-sep">
+
+        <!-- Output files -->
+        <h6 class="slurm-section-title">
+          <i class="fas fa-file-alt me-2"></i>Output Files
+        </h6>
+
+        <div class="mb-3">
+          <label class="form-label" for="sg-outFile">
+            Stdout log <code class="slurm-opt">--output</code>
+          </label>
+          <input type="text" class="form-control" id="sg-outFile"
+                 placeholder="logs/%x_%j.out" oninput="slurmGenerate()">
+          <div class="form-text">
+            <code>%x</code> = job name &nbsp;·&nbsp; <code>%j</code> = job ID
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="sg-errFile">
+            Stderr log <code class="slurm-opt">--error</code>
+          </label>
+          <input type="text" class="form-control" id="sg-errFile"
+                 placeholder="logs/%x_%j.err" oninput="slurmGenerate()">
+        </div>
+
+        <hr class="slurm-sep">
+
+        <!-- Email -->
+        <h6 class="slurm-section-title">
+          <i class="fas fa-envelope me-2"></i>Email Notifications
+        </h6>
+
+        <div class="mb-3">
+          <label class="form-label">
+            Notify on <code class="slurm-opt">--mail-type</code>
+          </label>
+          <div class="d-flex flex-wrap gap-3 mt-1">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox"
+                     id="sg-mBegin" onchange="slurmGenerate()">
+              <label class="form-check-label" for="sg-mBegin">BEGIN</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox"
+                     id="sg-mEnd" checked onchange="slurmGenerate()">
+              <label class="form-check-label" for="sg-mEnd">END</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox"
+                     id="sg-mFail" checked onchange="slurmGenerate()">
+              <label class="form-check-label" for="sg-mFail">FAIL</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox"
+                     id="sg-mRequeue" onchange="slurmGenerate()">
+              <label class="form-check-label" for="sg-mRequeue">REQUEUE</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="sg-mailUser">
+            Email address <code class="slurm-opt">--mail-user</code>
+          </label>
+          <input type="email" class="form-control" id="sg-mailUser"
+                 placeholder="you@icm.csic.es" oninput="slurmGenerate()">
+        </div>
+
+        <hr class="slurm-sep">
+
+        <!-- Advanced -->
+        <h6 class="slurm-section-title">
+          <i class="fas fa-sliders-h me-2"></i>Advanced
+        </h6>
+
+        <div class="mb-3">
+          <label class="form-label" for="sg-array">
+            Job array <code class="slurm-opt">--array</code>
+          </label>
+          <input type="text" class="form-control" id="sg-array"
+                 placeholder="e.g. 1-100 or 1-50%10" oninput="slurmGenerate()">
+          <div class="form-text">
+            <code>%N</code> limits simultaneous running tasks. <code>%a</code> in filenames = array index.
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="sg-workdir">
+            Working directory <code class="slurm-opt">--chdir</code>
+          </label>
+          <input type="text" class="form-control" id="sg-workdir"
+                 placeholder="/mnt/smart/user/project" oninput="slurmGenerate()">
+        </div>
+
+        <div class="mb-3">
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox"
+                   id="sg-exclusive" onchange="slurmGenerate()">
+            <label class="form-check-label" for="sg-exclusive">
+              Exclusive node <code class="slurm-opt">--exclusive</code>
+            </label>
+          </div>
+          <div class="form-text ms-4">Prevents other jobs from sharing your node.</div>
+        </div>
+
+      </form>
+    </div><!-- /form col -->
+
+    <!-- ── OUTPUT ────────────────────────────────────────────────── -->
+    <div class="col-lg-6">
+      <div class="slurm-output-wrapper">
+
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h6 class="slurm-section-title mb-0">
+            <i class="fas fa-code me-2"></i>Generated Header
+          </h6>
+          <button class="btn btn-sm btn-outline-primary" onclick="slurmCopy()" id="sg-copyBtn">
+            <i class="fas fa-copy me-1"></i>Copy
+          </button>
+        </div>
+
+        <pre id="sg-output" class="slurm-code-output"><code id="sg-code"></code></pre>
+
+        <div class="slurm-tip mt-3">
+          <strong>How to use:</strong>
+          Save as <code>job.sh</code>, add your commands after the <code>#SBATCH</code> lines,
+          then submit with <code class="text-primary">sbatch job.sh</code>.<br>
+          <span class="text-muted">Make sure the <code>logs/</code> directory exists before submitting.</span>
+        </div>
+
+        <div class="mt-3" id="sg-warnings"></div>
+
+      </div>
+    </div><!-- /output col -->
+
+  </div><!-- /row -->
+</div><!-- /slurm-generator -->
+
+<style>
+/* ── Layout ───────────────────────────────────────────────────── */
+.slurm-generator .slurm-section-title {
+  color: #0077b6;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.75rem;
+  margin-top: 0.2rem;
+}
+.slurm-generator .slurm-sep {
+  border-color: #d1dce8;
+  margin: 1.1rem 0;
+}
+.slurm-generator .slurm-unit-select {
+  max-width: 75px;
+  flex: none;
+}
+.slurm-output-wrapper {
+  position: sticky;
+  top: 80px;
+}
+
+/* ── Form controls — always light ────────────────────────────── */
+.slurm-generator .form-label {
+  font-weight: 500;
+  font-size: 0.875rem;
+  margin-bottom: 0.3rem;
+  color: #1e293b !important;
+}
+.slurm-generator .form-text {
+  font-size: 0.78rem;
+  color: #5a6e85 !important;
+}
+.slurm-generator .form-control,
+.slurm-generator .form-select {
+  background: #ffffff !important;
+  border-color: #c8d8e8 !important;
+  color: #1e293b !important;
+}
+.slurm-generator .form-control::placeholder {
+  color: #93aabf !important;
+}
+.slurm-generator .form-check-label {
+  color: #1e293b !important;
+}
+.slurm-generator .slurm-opt {
+  font-size: 0.72rem;
+  color: #005f99;
+  background: #dbeeff;
+  border: none;
+  padding: 1px 5px;
+  border-radius: 3px;
+  margin-left: 4px;
+}
+
+/* ── Code output — light theme ───────────────────────────────── */
+.slurm-code-output {
+  background: #f6f8fa;
+  color: #1e293b;
+  border: 1px solid #d1dce8;
+  border-radius: 8px;
+  padding: 1.1rem 1.3rem;
+  font-size: 0.80rem;
+  line-height: 1.7;
+  min-height: 260px;
+  overflow-x: auto;
+  white-space: pre;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  box-shadow: 0 2px 8px rgba(0,40,80,0.07);
+}
+.slurm-code-output .c-shebang   { color: #6b7f96; }
+.slurm-code-output .c-comment   { color: #7a92a8; font-style: italic; }
+.slurm-code-output .c-directive { color: #0055a4; font-weight: 700; }
+.slurm-code-output .c-key       { color: #005f99; }
+.slurm-code-output .c-eq        { color: #94a3b8; }
+.slurm-code-output .c-val       { color: #1a7f4b; font-weight: 500; }
+.slurm-code-output .c-blank     { color: transparent; user-select: none; }
+
+/* ── Tip box ─────────────────────────────────────────────────── */
+.slurm-tip {
+  background: #edf4fb;
+  border-left: 3px solid #0077b6;
+  padding: 0.7rem 1rem;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: #2d4a62 !important;
+}
+.slurm-tip code {
+  background: #dbeeff;
+  color: #004f88;
+  border-radius: 3px;
+  padding: 0 4px;
+}
+
+/* ── Warnings ────────────────────────────────────────────────── */
+#sg-warnings .alert {
+  font-size: 0.82rem;
+  padding: 0.45rem 0.8rem;
+}
+
+/* ── Reset inline-code theme styles inside the output block ──── */
+.slurm-code-output code {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  font-size: inherit !important;
+  color: inherit !important;
+  box-shadow: none !important;
+  display: block;
+}
+</style>
+
+<script>
+(function () {
+  function pad(n, width) {
+    var s = String(n === '' ? '0' : n);
+    while (s.length < width) s = '0' + s;
+    return s;
+  }
+
+  function val(id) {
+    var el = document.getElementById(id);
+    return el ? el.value.trim() : '';
+  }
+  function checked(id) {
+    var el = document.getElementById(id);
+    return el ? el.checked : false;
+  }
+  function intVal(id, def) {
+    var v = parseInt(val(id), 10);
+    return isNaN(v) ? def : v;
+  }
+
+  function buildTime() {
+    var d = intVal('sg-tDays', 0);
+    var h = intVal('sg-tHours', 0);
+    var m = intVal('sg-tMins', 0);
+    var s = intVal('sg-tSecs', 0);
+    if (d === 0 && h === 0 && m === 0 && s === 0) return '';
+    return d + '-' + pad(h, 2) + ':' + pad(m, 2) + ':' + pad(s, 2);
+  }
+
+  function buildMailType() {
+    var types = [];
+    if (checked('sg-mBegin'))   types.push('BEGIN');
+    if (checked('sg-mEnd'))     types.push('END');
+    if (checked('sg-mFail'))    types.push('FAIL');
+    if (checked('sg-mRequeue')) types.push('REQUEUE');
+    return types.join(',');
+  }
+
+  /* Syntax-highlighted line */
+  function hLine(key, value) {
+    return '<span class="c-directive">#SBATCH</span>'
+         + ' <span class="c-key">' + key + '</span>'
+         + '<span class="c-eq">=</span>'
+         + '<span class="c-val">' + escHtml(value) + '</span>';
+  }
+
+  function escHtml(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function blank() { return '<span class="c-blank">·</span>'; }
+
+  /* If a job array is set and the path doesn't already reference the array
+     task ID, insert _%a before the extension (or replace %j with %A_%a). */
+  function addArraySuffix(path) {
+    if (path.indexOf('%a') !== -1 || path.indexOf('%A') !== -1) return path;
+    if (path.indexOf('%j') !== -1) return path.replace('%j', '%A_%a');
+    return path.replace(/(\.[^./\\]+)$/, '_%a$1');
+  }
+
+  window.slurmGenerate = function () {
+    var lines = [];
+    var warnings = [];
+
+    lines.push('<span class="c-shebang">#!/bin/bash</span>');
+    lines.push('<span class="c-comment"># ── SLURM job script ──────────────────────────────────</span>');
+    lines.push(blank());
+
+    /* Account (required) */
+    var account = val('sg-account');
+    if (account) {
+      lines.push(hLine('--account', account));
+    } else {
+      lines.push('<span class="c-comment"># --account=&lt;required — fill in your bank account&gt;</span>');
+      warnings.push('Account is required.');
+    }
+
+    /* Job name */
+    var jobName = val('sg-jobName');
+    if (jobName) lines.push(hLine('--job-name', jobName));
+
+    /* Partition */
+    var partition = val('sg-partition');
+    if (partition) lines.push(hLine('--partition', partition));
+
+    lines.push(blank());
+    lines.push('<span class="c-comment"># ── Resources ──────────────────────────────────────────</span>');
+
+    /* Nodes */
+    var nodes = intVal('sg-nodes', 1);
+    lines.push(hLine('--nodes', String(nodes)));
+
+    /* ntasks */
+    var ntasks = intVal('sg-ntasks', 1);
+    lines.push(hLine('--ntasks', String(ntasks)));
+
+    /* CPUs */
+    var cpus = intVal('sg-cpus', 1);
+    lines.push(hLine('--cpus-per-task', String(cpus)));
+
+    /* Memory */
+    var mem = val('sg-mem');
+    var memUnit = val('sg-memUnit') || 'G';
+    if (mem) {
+      lines.push(hLine('--mem', mem + memUnit));
+    }
+
+    /* Time */
+    var time = buildTime();
+    if (time) {
+      lines.push(hLine('--time', time));
+    }
+
+    /* Exclusive */
+    if (checked('sg-exclusive')) {
+      lines.push('<span class="c-directive">#SBATCH</span> <span class="c-key">--exclusive</span>');
+    }
+
+    /* Array */
+    var array = val('sg-array');
+    if (array) lines.push(hLine('--array', array));
+
+    /* Workdir */
+    var workdir = val('sg-workdir');
+    if (workdir) lines.push(hLine('--chdir', workdir));
+
+    lines.push(blank());
+    lines.push('<span class="c-comment"># ── Output files ───────────────────────────────────────</span>');
+
+    /* Output / error — inject %a when running as an array */
+    var outRaw = val('sg-outFile');
+    var errRaw = val('sg-errFile');
+    var outFile, errFile;
+    if (array) {
+      outFile = outRaw ? addArraySuffix(outRaw) : 'logs/%x_%A_%a.out';
+      errFile = errRaw ? addArraySuffix(errRaw) : 'logs/%x_%A_%a.err';
+    } else {
+      outFile = outRaw || 'logs/%x_%j.out';
+      errFile = errRaw || 'logs/%x_%j.err';
+    }
+    lines.push(hLine('--output', outFile));
+    lines.push(hLine('--error',  errFile));
+
+    /* Email */
+    var mailType = buildMailType();
+    var mailUser = val('sg-mailUser');
+    if (mailType || mailUser) {
+      lines.push(blank());
+      lines.push('<span class="c-comment"># ── Notifications ──────────────────────────────────────</span>');
+      if (mailType) lines.push(hLine('--mail-type', mailType));
+      if (mailUser) lines.push(hLine('--mail-user', mailUser));
+      if (mailType && !mailUser) warnings.push('Email address missing for notifications.');
+    }
+
+    lines.push(blank());
+    lines.push('<span class="c-comment"># ── Your commands ──────────────────────────────────────</span>');
+
+    /* Module placeholder */
+    if (jobName) {
+      lines.push('<span class="c-comment"># module load &lt;software&gt;</span>');
+      lines.push('<span class="c-comment"># your_command --threads ' + cpus + ' ...</span>');
+    }
+
+    document.getElementById('sg-code').innerHTML = lines.join('\n');
+
+    /* Warnings */
+    var wBox = document.getElementById('sg-warnings');
+    if (warnings.length) {
+      wBox.innerHTML = warnings.map(function(w) {
+        return '<div class="alert alert-warning py-1 px-2 mb-1"><i class="fas fa-exclamation-triangle me-1"></i>' + escHtml(w) + '</div>';
+      }).join('');
+    } else {
+      wBox.innerHTML = '';
+    }
+  };
+
+  window.slurmCopy = function () {
+    /* Build plain-text version */
+    var lines = [];
+    var account  = val('sg-account');
+    var jobName  = val('sg-jobName');
+    var partition = val('sg-partition');
+    var nodes    = intVal('sg-nodes', 1);
+    var ntasks   = intVal('sg-ntasks', 1);
+    var cpus     = intVal('sg-cpus', 1);
+    var mem      = val('sg-mem');
+    var memUnit  = val('sg-memUnit') || 'G';
+    var time     = buildTime();
+    var mailType = buildMailType();
+    var mailUser = val('sg-mailUser');
+    var array    = val('sg-array');
+    var workdir  = val('sg-workdir');
+    var outRaw   = val('sg-outFile');
+    var errRaw   = val('sg-errFile');
+    var outFile, errFile;
+    if (array) {
+      outFile = outRaw ? addArraySuffix(outRaw) : 'logs/%x_%A_%a.out';
+      errFile = errRaw ? addArraySuffix(errRaw) : 'logs/%x_%A_%a.err';
+    } else {
+      outFile = outRaw || 'logs/%x_%j.out';
+      errFile = errRaw || 'logs/%x_%j.err';
+    }
+
+    lines.push('#!/bin/bash');
+    lines.push('# ── SLURM job script ──────────────────────────────────');
+    lines.push('');
+
+    if (account)   lines.push('#SBATCH --account=' + account);
+    if (jobName)   lines.push('#SBATCH --job-name=' + jobName);
+    if (partition) lines.push('#SBATCH --partition=' + partition);
+
+    lines.push('');
+    lines.push('# ── Resources ──────────────────────────────────────────');
+    lines.push('#SBATCH --nodes=' + nodes);
+    lines.push('#SBATCH --ntasks=' + ntasks);
+    lines.push('#SBATCH --cpus-per-task=' + cpus);
+    if (mem)  lines.push('#SBATCH --mem=' + mem + memUnit);
+    if (time) lines.push('#SBATCH --time=' + time);
+    if (checked('sg-exclusive')) lines.push('#SBATCH --exclusive');
+    if (array)   lines.push('#SBATCH --array=' + array);
+    if (workdir) lines.push('#SBATCH --chdir=' + workdir);
+
+    lines.push('');
+    lines.push('# ── Output files ───────────────────────────────────────');
+    lines.push('#SBATCH --output=' + outFile);
+    lines.push('#SBATCH --error=' + errFile);
+
+    if (mailType || mailUser) {
+      lines.push('');
+      lines.push('# ── Notifications ──────────────────────────────────────');
+      if (mailType) lines.push('#SBATCH --mail-type=' + mailType);
+      if (mailUser) lines.push('#SBATCH --mail-user=' + mailUser);
+    }
+
+    lines.push('');
+    lines.push('# ── Your commands ──────────────────────────────────────');
+    lines.push('# module load <software>');
+    lines.push('# your_command ...');
+
+    var text = lines.join('\n');
+
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(function () {
+        slurmCopyFeedback();
+      });
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      slurmCopyFeedback();
+    }
+  };
+
+  function slurmCopyFeedback() {
+    var btn = document.getElementById('sg-copyBtn');
+    btn.innerHTML = '<i class="fas fa-check me-1"></i>Copied!';
+    btn.classList.remove('btn-outline-primary');
+    btn.classList.add('btn-success');
+    setTimeout(function () {
+      btn.innerHTML = '<i class="fas fa-copy me-1"></i>Copy';
+      btn.classList.remove('btn-success');
+      btn.classList.add('btn-outline-primary');
+    }, 2000);
+  }
+
+  /* Initial render */
+  document.addEventListener('DOMContentLoaded', function () {
+    slurmGenerate();
+  });
+  /* Fallback if DOMContentLoaded already fired (Hugo partial hydration) */
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    slurmGenerate();
+  }
+})();
+</script>

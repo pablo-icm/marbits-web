@@ -1,0 +1,83 @@
+main:
+  - name: Home
+    url: /
+    weight: 10
+
+  - name: Documentation
+    weight: 20
+
+  - name: Getting Started
+    url: /docs/getting-started/
+    parent: Documentation
+    weight: 21
+
+  - name: System Overview
+    url: /docs/system-overview/
+    parent: Documentation
+    weight: 22
+
+  - name: File System
+    url: /docs/filesystem/
+    parent: Documentation
+    weight: 23
+
+  - name: Running Jobs
+    url: /docs/running-jobs/
+    parent: Documentation
+    weight: 24
+
+  - name: "SLURM Generator"
+    url: /docs/slurm-generator/
+    parent: Documentation
+    weight: 25
+
+  - name: Software Environment
+    url: /docs/software/
+    parent: Documentation
+    weight: 26
+
+  - name: File Transfer
+    url: /docs/file-transfer/
+    parent: Documentation
+    weight: 27
+
+  - name: Backup
+    url: /docs/backup/
+    parent: Documentation
+    weight: 28
+
+  - name: FAQ
+    url: /docs/faq/
+    parent: Documentation
+    weight: 29
+
+  - name: Tutorials
+    weight: 30
+
+  - name: Anvio on MARBITS
+    url: /docs/tutorials/anvio/
+    parent: Tutorials
+    weight: 31
+
+  - name: One-liners
+    url: /docs/tutorials/one-liners/
+    parent: Tutorials
+    weight: 32
+
+  - name: Support
+    weight: 40
+
+  - name: GitHub Discussions
+    url: https://github.com/marbits-icm/marbits-public/discussions
+    parent: Support
+    weight: 41
+
+  - name: Open an Issue
+    url: https://github.com/marbits-icm/marbits-public/issues/new
+    parent: Support
+    weight: 42
+
+  - name: Wiki
+    url: https://github.com/marbits-icm/marbits-public/wiki
+    parent: Support
+    weight: 43
