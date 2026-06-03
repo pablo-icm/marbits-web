@@ -103,6 +103,40 @@ section#cover-image {
 section#cover-image .home-section-bg { display: none; }
 section#cover-image .section-heading { display: none; }
 
+/* Remove container width constraints for full-width cover */
+section#cover-image .container {
+  max-width: 100% !important;
+  padding: 0 !important;
+}
+
+section#cover-image .row {
+  margin: 0 !important;
+}
+
+section#cover-image .col-12 {
+  padding: 0 !important;
+}
+
+section#cover-image figure {
+  margin: 0 !important;
+  width: 100%;
+}
+
+section#cover-image figure > div {
+  display: block !important;
+}
+
+section#cover-image figure .w-100 {
+  width: 100% !important;
+}
+
+section#cover-image img {
+  display: block;
+  width: 100% !important;
+  height: auto !important;
+  max-width: none !important;
+}
+
 .marbits-cover {
   display: block;
   width: 100vw;
