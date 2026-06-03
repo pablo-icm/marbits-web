@@ -2,6 +2,8 @@ title:
 
 baseURL: 'https://marbits.icm.csic.es/'
 
+canonifyURLs: true
+
 ############################
 ## LANGUAGE
 ############################

@@ -9,7 +9,7 @@ sections:
     content:
       title: ''
       text: |
-        <img src="/media/cover.png" alt="MARBITS HPC Cluster" class="marbits-cover">
+        ![MARBITS HPC Cluster](cover.png)
     design:
       background:
         color: '#ffffff'
