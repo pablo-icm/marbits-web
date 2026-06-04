@@ -2,6 +2,10 @@ main:
   - name: Home
     url: /
     weight: 10
+  
+  - name: Team
+    url: /team/
+    weight: 15
 
   - name: Documentation
     weight: 20
@@ -26,30 +30,25 @@ main:
     parent: Documentation
     weight: 24
 
-  - name: "SLURM Generator"
-    url: /docs/slurm-generator/
-    parent: Documentation
-    weight: 25
-
   - name: Software Environment
     url: /docs/software/
     parent: Documentation
-    weight: 26
+    weight: 25
 
   - name: File Transfer
     url: /docs/file-transfer/
     parent: Documentation
-    weight: 27
+    weight: 26
 
   - name: Backup
     url: /docs/backup/
     parent: Documentation
-    weight: 28
+    weight: 27
 
   - name: FAQ
     url: /docs/faq/
     parent: Documentation
-    weight: 29
+    weight: 28
 
   - name: Tutorials
     weight: 30
@@ -81,3 +80,5 @@ main:
     url: https://github.com/marbits-icm/marbits-public/wiki
     parent: Support
     weight: 43
+
+  

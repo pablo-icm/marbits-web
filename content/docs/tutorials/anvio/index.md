@@ -4,9 +4,6 @@ summary: How to run an interactive Anvio session on a MARBITS compute node and v
 date: 2024-01-01
 weight: 91
 show_breadcrumb: true
-authors:
-  - "@ramalok"
-  - "@flatorre"
 ---
 
 *Tutorial by @ramalok and @flatorre.*
