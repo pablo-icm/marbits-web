@@ -30,25 +30,30 @@ main:
     parent: Documentation
     weight: 24
 
+  - name: SBATCH Wizard
+    url: /docs/slurm-generator/
+    parent: Documentation
+    weight: 25
+
   - name: Software Environment
     url: /docs/software/
     parent: Documentation
-    weight: 25
+    weight: 26
 
   - name: File Transfer
     url: /docs/file-transfer/
     parent: Documentation
-    weight: 26
+    weight: 27
 
   - name: Backup
     url: /docs/backup/
     parent: Documentation
-    weight: 27
+    weight: 28
 
   - name: FAQ
     url: /docs/faq/
     parent: Documentation
-    weight: 28
+    weight: 29
 
   - name: Tutorials
     weight: 30
